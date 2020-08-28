@@ -1,39 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace dndbeyond.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [Route("api/[controller]")]
+    public class HitPointsController : Controller
     {
-        private static readonly string[] Summaries = new[]
+        // PUT: api/HitPoints/max
+        [HttpPut("max")]
+        public async Task<IActionResult> updateMaxHitPoints(long id, int hitPoints)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+            return NoContent();
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        // PUT: api/HitPoints/temporary
+        [HttpPut("temporary")]
+        public async Task<IActionResult> updateTemporaryHitPoints(long id, int temporaryHitPoints)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return NoContent();
+        }
+
+        // PUT: api/HitPoints/damage
+        [HttpPut("damage")]
+        public async Task<IActionResult> damageCharacter(long id, int damage)
+        {
+            return NoContent();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dndbeyond.Models;
+using dndbeyond.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,7 @@ namespace dndbeyond
         {
             services.AddDbContext<CharactersContext>(opt =>
                opt.UseInMemoryDatabase("Characters"));
+            services.AddScoped<ICharactersService, CharactersService>();
             services.AddControllers();
         }
 
