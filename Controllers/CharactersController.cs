@@ -73,6 +73,27 @@ namespace dndbeyond.Controllers
             return NoContent();
         }
 
+        // PUT: api/Characters/5/hitPoints
+        [HttpPut("{id}/hitPoints")]
+        public async Task<IActionResult> PutCharacterDamage(long id, int hitPoints)
+        {
+            return NoContent();
+        }
+
+        // PUT: api/Characters/5/temporaryHitPoints
+        [HttpPut("{id}/temporaryHitPoints")]
+        public async Task<IActionResult> PutCharacterTemporaryHitPoints(long id, int temporaryHitPoints)
+        {
+            return NoContent();
+        }
+
+        // PUT: api/Characters/5/damage
+        [HttpPut("{id}/damage")]
+        public async Task<IActionResult> PutCharacterDamage(long id, Character character)
+        {
+            return NoContent();
+        }
+
         // POST: api/Characters
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
