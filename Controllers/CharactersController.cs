@@ -12,10 +12,9 @@ namespace dndbeyond.Controllers
     public class CharactersController : ControllerBase
     {
         private readonly ILogger<CharactersController> _logger;
-
         private readonly ICharactersService _charactersService;
 
-        public CharactersController(ILogger<CharactersController> logger, CharactersContext context, ICharactersService charactersService)
+        public CharactersController(ILogger<CharactersController> logger, ICharactersService charactersService)
         {
             _logger = logger;
             _charactersService = charactersService;
@@ -25,6 +24,7 @@ namespace dndbeyond.Controllers
         [HttpGet]
         public async Task<IEnumerable<Character>> GetCharacters()
         {
+            _logger.LogInformation("GET /api/characters");
             return await _charactersService.GetCharacters();
         }
 
@@ -32,6 +32,7 @@ namespace dndbeyond.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(long id)
         {
+            _logger.LogInformation("GET /api/characters/" + id);
             var character = await _charactersService.GetCharacter(id);
         
             if (character == null)
@@ -44,8 +45,9 @@ namespace dndbeyond.Controllers
 
         // POST: api/Characters
         [HttpPost]
-        public async Task<ActionResult<Character>> createCharacter(Character character)
+        public async Task<ActionResult<Character>> CreateCharacter(Character character)
         {
+            _logger.LogInformation("POST /api/characters");
             await _charactersService.CreateCharacter(character);
 
             return CreatedAtAction(nameof(GetCharacter), new { id = character.Id }, character);

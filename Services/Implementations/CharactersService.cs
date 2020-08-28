@@ -22,15 +22,16 @@ namespace dndbeyond.Services
 
         }
 
-        public async Task<ActionResult<Character>> GetCharacter(long id)
+        public async Task<Character> GetCharacter(long id)
         {
             return await _context.Characters.FindAsync(id);
         }
 
-        public async Task<int> CreateCharacter(Character character)
+        public async Task<Character> CreateCharacter(Character character)
         {
             _context.Characters.Add(character);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return character;
         }
 
     }
