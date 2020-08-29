@@ -5,8 +5,8 @@ namespace dndbeyond.Services.Implementations
 {
     public class DamageService
     {
-        private const string RESISTANCE = "resistance";
-        private const string IMMUNITY = "immunity";
+        public const string RESISTANCE = "resistance";
+        public const string IMMUNITY = "immunity";
 
         public DamageService()
         {
