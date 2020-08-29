@@ -38,12 +38,15 @@ namespace dndbeyond.Services
             return character;
         }
 
-        public async Task<Character> DamageCharacter(long id, int damage)
+        public async Task<Character> DamageCharacter(long id, int damage, string damageType)
         {
             var character = await _charactersService.GetCharacter(id);
 
-            _damageService.DamageCharacter(character, damage);
-            await _context.SaveChangesAsync();
+            var damageDone = _damageService.DamageCharacter(character, damage, damageType);
+            if(damageDone > 0) // only save if HPs changed
+            {
+                await _context.SaveChangesAsync();
+            }
 
             return character;
         }
