@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using dndbeyond.Models;
 using Microsoft.Extensions.Logging;
 using dndbeyond.Services;
+using dndbeyond.Controllers.Payload;
 
 namespace dndbeyond.Controllers
 {
@@ -45,10 +46,10 @@ namespace dndbeyond.Controllers
 
         // POST: api/Characters
         [HttpPost]
-        public async Task<ActionResult<Character>> CreateCharacter(Character character)
+        public async Task<ActionResult<Character>> CreateCharacter(NewCharacterPayload payload)
         {
             _logger.LogInformation("POST /api/characters");
-            await _charactersService.CreateCharacter(character);
+            var character = await _charactersService.CreateCharacter(payload.Character, payload.Method);
 
             return CreatedAtAction(nameof(GetCharacter), new { id = character.Id }, character);
         }

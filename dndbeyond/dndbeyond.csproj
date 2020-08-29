@@ -10,6 +10,8 @@
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Services\Implementations\" />
+    <Folder Include="Models\Enum\" />
+    <Folder Include="Controllers\Payload\" />
   </ItemGroup>
 
 
@@ -22,4 +24,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+    <_Parameter1>dndbeyond-tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
 </Project>

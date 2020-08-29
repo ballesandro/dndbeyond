@@ -17,7 +17,7 @@ namespace dndbeyond.Services.Implementations
          * 
          * Assumes a character can have negative hit points.
          */
-        public int DamageCharacter(Character character, int damage, string damageType)
+        public void DamageCharacter(Character character, int damage, string damageType)
         {
             var modifier = getDamageMod(character, damageType);
             damage = (int)(damage * modifier);
@@ -31,8 +31,6 @@ namespace dndbeyond.Services.Implementations
                 character.TemporaryHitPoints = 0;
                 character.CurrentHitPoints += overflow;
             }
-
-            return damage;
         }
 
         /**
