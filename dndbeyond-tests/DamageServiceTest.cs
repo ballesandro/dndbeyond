@@ -1,4 +1,3 @@
-using System;
 using dndbeyond.Models;
 using dndbeyond.Services.Implementations;
 using Xunit;
@@ -12,321 +11,218 @@ namespace dndbeyond_tests
         [Fact]
         public void SanityCheck()
         {
-            var thisCharacter = new Character
-            {
-                Name = "Eressil",
-                MaxHitPoints = 50,
-                TemporaryHitPoints = 35
-            };
-
-            var thatCharacter = new Character
-            {
-                Name = "Rhone",
-                MaxHitPoints = 50,
-                TemporaryHitPoints = 0
-            };
+            var thisCharacter = MakeCharacter(50, 50, 35);
+            var thatCharacter = MakeCharacter(50, 50, 0);
+            var datCharacter = MakeCharacter(50, 50, 0);
 
             thisCharacter.Should().NotBeEquivalentTo(thatCharacter);
+            thatCharacter.Should().BeEquivalentTo(datCharacter);
         }
 
         [Fact]
         public void NoTempAndMoreCurrent_shouldLowerCurrent()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 10,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, 10, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 0
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 20, 0);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void NoTempAndEqualCurrent_shouldLowerCurrent()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 0,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, 0, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 10,
-                TemporaryHitPoints = 0
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 10, 0);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void NoTempAndLessCurrent_shouldLowerCurrent()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = -5,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, -5, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 5,
-                TemporaryHitPoints = 0
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 5, 0);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void NoTempAndNoCurrent_shouldLowerCurrent()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = -10,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, -10, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 0,
-                TemporaryHitPoints = 0
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 0, 0);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void MoreTempAndSomeCurrent_shouldLowerTemp()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10
-            };
+            var expectedCharacter = MakeCharacter(20, 20, 10);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 20
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 20, 20);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void EqualTempAndSomeCurrent_shouldLowerTemp()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, 20, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 20, 10);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void LessTempAndSomeCurrent_shouldLowerTempAndCurrent()
         {
             var expectedDamageDone = 10;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 15,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, 15, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 5
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, null);
+            var actualCharacter = MakeCharacter(20, 20, 5);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void LessTempAndLessCurrent_shouldLowerTemp()
         {
             var expectedDamageDone = 15;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = -5,
-                TemporaryHitPoints = 0
-            };
+            var expectedCharacter = MakeCharacter(20, -5, 0);
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 5,
-                TemporaryHitPoints = 5
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 15, null);
+            var actualCharacter = MakeCharacter(20, 5, 5);
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 15, null);
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void Immune_shouldNotLowerAny()
         {
             var expectedDamageDone = 0;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.IMMUNITY }
-                }
-            };
+            var expectedCharacter = MakeCharacter(20, 20, 10);
+            addImmunity(expectedCharacter, "fire");
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.IMMUNITY }
-                }
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, "fire");
+            var actualCharacter = MakeCharacter(20, 20, 10); 
+            addImmunity(actualCharacter, "fire");
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, "fire");
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void Resistant_shouldLowerHalf()
         {
             var expectedDamageDone = 5;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 5,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.RESISTANCE }
-                }
-            };
+            var expectedCharacter = MakeCharacter(20, 20, 5);
+            addResistance(expectedCharacter, "fire");
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.RESISTANCE }
-                }
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 10, "fire");
+            var actualCharacter = MakeCharacter(20, 20, 10);
+            addResistance(actualCharacter, "fire");
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, "fire");
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
         [Fact]
         public void Resistant_shouldRoundDown()
         {
             var expectedDamageDone = 4;
-            var expectedCharacter = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 6,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.RESISTANCE }
-                }
-            };
+            var expectedCharacter = MakeCharacter(20, 20, 6);
+            addResistance(expectedCharacter, "fire");
 
             var damageService = new DamageService();
-            var character = new Character
-            {
-                MaxHitPoints = 20,
-                CurrentHitPoints = 20,
-                TemporaryHitPoints = 10,
-                Defenses = new List<CharacterDefense>()
-                {
-                    new CharacterDefense() { Type = "fire", Defense = DamageService.RESISTANCE }
-                }
-            };
-
-            var actualDamageDone = damageService.DamageCharacter(character, 9, "fire");
+            var actualCharacter = MakeCharacter(20, 20, 10);
+            addResistance(actualCharacter, "fire");
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 9, "fire");
 
             actualDamageDone.Should().Be(expectedDamageDone);
-            character.Should().BeEquivalentTo(expectedCharacter);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
         }
 
+        [Fact]
+        public void DifferentResistance_shouldNotBeModified()
+        {
+            var expectedDamageDone = 10;
+            var expectedCharacter = MakeCharacter(20, 20, 10);
+            addResistance(expectedCharacter, "poison");
+
+            var damageService = new DamageService();
+            var actualCharacter = MakeCharacter(20, 20, 0);
+            addResistance(actualCharacter, "poison");
+            var actualDamageDone = damageService.DamageCharacter(actualCharacter, 10, "fire");
+
+            actualDamageDone.Should().Be(expectedDamageDone);
+            actualCharacter.Should().BeEquivalentTo(expectedCharacter);
+        }
+
+        private Character MakeCharacter(int max, int current, int temp)
+        {
+            return new Character
+            {
+                MaxHitPoints = max,
+                CurrentHitPoints = current,
+                TemporaryHitPoints = temp
+            };
+        }
+
+        private void addResistance(Character character, string resistance)
+        {
+            if(character.Defenses == null)
+            {
+                character.Defenses = new List<CharacterDefense>();
+            }
+
+            character.Defenses.Add(new CharacterDefense() { Type = resistance, Defense = DamageService.RESISTANCE });
+        }
+
+        private void addImmunity(Character character, string immunity)
+        {
+            if (character.Defenses == null)
+            {
+                character.Defenses = new List<CharacterDefense>();
+            }
+
+            character.Defenses.Add(new CharacterDefense() { Type = immunity, Defense = DamageService.IMMUNITY });
+        }
     }
 }
