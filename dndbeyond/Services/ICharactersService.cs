@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using dndbeyond.Models;
-using dndbeyond.Models.Enum;
 
 namespace dndbeyond.Services
 {
@@ -9,6 +8,6 @@ namespace dndbeyond.Services
     {
         Task<IEnumerable<Character>> GetCharacters();
         Task<Character> GetCharacter(long id);
-        Task<Character> CreateCharacter(Character character, HitPointsMethod method);
+        Task<Character> CreateCharacter(Character character);
     }
 }

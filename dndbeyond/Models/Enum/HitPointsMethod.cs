@@ -1,8 +1,7 @@
-﻿using System;
-namespace dndbeyond.Models.Enum
+﻿namespace dndbeyond.Models.Enum
 {
     public enum HitPointsMethod
     {
-        Random, Average
+        Average, Random
     }
 }

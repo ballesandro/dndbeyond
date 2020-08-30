@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using dndbeyond.DB;
 using dndbeyond.Models;
 using dndbeyond.Services;
 using dndbeyond.Services.Implementations;
@@ -27,7 +29,15 @@ namespace dndbeyond
             services.AddScoped<IHitPointsService, HitPointsService>();
             services.AddScoped<IDamageService, DamageService>();
             services.AddScoped<IHealService, HealService>();
+            services.AddScoped<IDiceService, DiceService>();
+            services.AddScoped<CharactersRepository>();
             services.AddControllers();
+            services.AddSwaggerGen();
+            services.AddMvc()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +57,12 @@ namespace dndbeyond
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "It's DnD (DnD Beyond)");
             });
         }
     }

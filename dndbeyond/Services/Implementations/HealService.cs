@@ -7,7 +7,6 @@ namespace dndbeyond.Services.Implementations
     {
         public HealService()
         {
-
         }
 
         public void HealCharacter(Character character, int heal)

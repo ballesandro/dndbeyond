@@ -1,40 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using dndbeyond.DB;
 using dndbeyond.Models;
-using dndbeyond.Models.Enum;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace dndbeyond.Services
 {
     public class CharactersService : ICharactersService
     {
 
-        private readonly CharactersContext _context;
+        private readonly CharactersRepository _repo;
+        private readonly IHitPointsService _hpService;
 
-        public CharactersService(CharactersContext context)
+        public CharactersService(CharactersRepository repo, IHitPointsService hpService)
         {
-            _context = context;
+            _repo = repo;
+            _hpService = hpService;
         }
 
         public async Task<IEnumerable<Character>> GetCharacters()
         {
-            return await _context.Characters.ToListAsync();
-
+            return await _repo.GetAll();
         }
 
         public async Task<Character> GetCharacter(long id)
         {
-            return await _context.Characters.FindAsync(id);
+            return await _repo.GetById(id);
         }
 
-        public async Task<Character> CreateCharacter(Character character, HitPointsMethod method)
+        public async Task<Character> CreateCharacter(Character character)
         {
-            var hpService = new HitPointsService();
-            hpService.CalculateMaxHitPoints(character, method);
+            var maxHitPoints = _hpService.CalculateMaxHitPoints(character);
+            character.MaxHitPoints = maxHitPoints;
+            character.CurrentHitPoints = maxHitPoints;
 
-            _context.Characters.Add(character);
-            await _context.SaveChangesAsync();
+            await _repo.Add(character);
 
             return character;
         }

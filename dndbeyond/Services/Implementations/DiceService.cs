@@ -1,7 +1,7 @@
 ﻿using System;
 namespace dndbeyond.Services.Implementations
 {
-    public class DiceService
+    public class DiceService : IDiceService
     {
 
         private readonly Random random;
@@ -15,5 +15,11 @@ namespace dndbeyond.Services.Implementations
         {
             return random.Next(1, dieValue + 1);
         }
+
+        public int GetDieAverage(int hitDiceValue)
+        {
+            return (int)Math.Ceiling((hitDiceValue + 1) / 2.0);
+        }
+
     }
 }

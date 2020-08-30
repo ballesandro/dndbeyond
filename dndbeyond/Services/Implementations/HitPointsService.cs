@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using dndbeyond.DB;
 using dndbeyond.Models;
 using dndbeyond.Models.Enum;
 
@@ -7,76 +8,64 @@ namespace dndbeyond.Services
 {
     public class HitPointsService : IHitPointsService
     {
-        private readonly CharactersContext _context;
-        private readonly ICharactersService _charactersService;
+        private readonly CharactersRepository _repo;
         private readonly IDiceService _diceService;
         private readonly IDamageService _damageService;
         private readonly IHealService _healService;
 
-        public HitPointsService()
+        public HitPointsService(CharactersRepository repo, IDiceService diceService, IDamageService damageService, IHealService healService)
         {
-        }
-
-        public HitPointsService(CharactersContext context, ICharactersService charactersService,
-            IDiceService diceService, IDamageService damageService, IHealService healService)
-        {
-            _context = context;
-            _charactersService = charactersService;
+            _repo = repo;
             _diceService = diceService;
             _damageService = damageService;
             _healService = healService;
         }
 
-        public int CalculateMaxHitPoints(Character character, HitPointsMethod method)
+        public int CalculateMaxHitPoints(Character character)
         {
-            switch(method)
+            switch(character.hitPointsMethod)
             {
-                case HitPointsMethod.Average:
-                    return CalculateMaxHitPointsAverage(character);
                 case HitPointsMethod.Random:
                     return CalculateMaxHitPointsRandom(character);
+                case HitPointsMethod.Average:
                 default:
-                    throw new ArgumentException("Unknown hit points method.");
+                    return CalculateMaxHitPointsAverage(character);
             }
         }
 
         public async Task<Character> UpdateMaxHitPoints(long id, int hitPoints)
         {
-            var character = await _charactersService.GetCharacter(id);
-
+            var character = await _repo.GetById(id);
             character.MaxHitPoints = hitPoints;
-            await _context.SaveChangesAsync();
 
+            await _repo.Update(character);
             return character;
         }
 
         public async Task<Character> UpdateTemporaryHitPoints(long id, int temporaryHitPoints)
         {
-            var character = await _charactersService.GetCharacter(id);
-
+            var character = await _repo.GetById(id);
             character.TemporaryHitPoints = Math.Max(temporaryHitPoints, character.TemporaryHitPoints);
-            await _context.SaveChangesAsync();
 
+            await _repo.Update(character);
             return character;
         }
 
         public async Task<Character> DamageCharacter(long id, int damage, string damageType)
         {
-            var character = await _charactersService.GetCharacter(id);
-
+            var character = await _repo.GetById(id);
             _damageService.DamageCharacter(character, damage, damageType);
-            await _context.SaveChangesAsync();
 
+            await _repo.Update(character);
             return character;
         }
 
         public async Task<Character> HealCharacter(long id, int heal)
         {
-            var character = await _charactersService.GetCharacter(id);
-
+            var character = await _repo.GetById(id);
             _healService.HealCharacter(character, heal);
-            await _context.SaveChangesAsync();
 
+            await _repo.Update(character);
             return character;
         }
 
@@ -87,7 +76,7 @@ namespace dndbeyond.Services
 
             foreach (CharacterClass characterClass in character.Classes)
             {
-                var average = getDieAverage(characterClass.HitDiceValue);
+                var average = _diceService.GetDieAverage(characterClass.HitDiceValue);
                 maxHitPoints += average * characterClass.ClassLevel;
             }
 
@@ -113,11 +102,6 @@ namespace dndbeyond.Services
             maxHitPoints += character.Level * conMod;
 
             return maxHitPoints;
-        }
-
-        internal int getDieAverage(int hitDiceValue)
-        {
-            return (int) Math.Ceiling((hitDiceValue + 1) / 2.0);
         }
 
         internal int CalculateConMod(Character character)
