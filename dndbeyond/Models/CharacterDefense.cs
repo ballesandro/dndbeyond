@@ -1,5 +1,4 @@
-﻿using System;
-namespace dndbeyond.Models
+﻿namespace dndbeyond.Models
 {
     public class CharacterDefense
     {

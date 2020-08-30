@@ -1,5 +1,4 @@
-﻿using System;
-namespace dndbeyond.Models
+﻿namespace dndbeyond.Models
 {
     public class CharacterStats
     {
@@ -8,6 +7,8 @@ namespace dndbeyond.Models
         }
 
         public long Id { get; set; }
+
+        // This assumes that every character has the same type of stats.
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }

@@ -70,7 +70,37 @@ namespace dndbeyond_tests
         }
 
         [Fact]
-        public void GetDieAverage_shouldBeCool()
+        public void CalculateConModWithItems_shouldWork()
+        {
+            var expected = 5;
+
+            var hitPointsService = new HitPointsService();
+            var character = MakeCharacter(14);
+            character.Items.Add(new Item()
+            {
+                Modifier = new Modifier()
+                {
+                    AffectedObject = "stats",
+                    AffectedValue = "constitution",
+                    Value = 5
+                }
+            });
+            character.Items.Add(new Item()
+            {
+                Modifier = new Modifier()
+                {
+                    AffectedObject = "stats",
+                    AffectedValue = "charisma",
+                    Value = 5
+                }
+            });
+            var actual = hitPointsService.CalculateConMod(character);
+
+            actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void GetDieAverage_shouldWork()
         {
             var hitPointsService = new HitPointsService();
 
@@ -84,7 +114,7 @@ namespace dndbeyond_tests
         }
 
         [Fact]
-        public void CalculateMaxHitPointsAverageWithOneClass_shouldBeCool()
+        public void CalculateMaxHitPointsAverageWithOneClass_shouldWork()
         {
             // con mod = 2, average hit die = 6
             // (2 * 5) + (6 * 5)
@@ -125,7 +155,7 @@ namespace dndbeyond_tests
             mockDiceService.Setup(die => die.Roll(It.IsAny<int>()))
                 .Returns(1);
 
-            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null);
+            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null, null);
 
             var character = MakeCharacter(5, 13);
             AddClass(character, 10, 5);
@@ -145,7 +175,7 @@ namespace dndbeyond_tests
             mockDiceService.Setup(die => die.Roll(It.IsAny<int>()))
                 .Returns(1);
 
-            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null);
+            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null, null);
             var character = MakeCharacter(5, 13);
             AddClass(character, 10, 1);
             AddClass(character, 12, 4);
@@ -165,7 +195,7 @@ namespace dndbeyond_tests
             mockDiceService.Setup(die => die.Roll(It.IsAny<int>()))
                 .Returns<int>(roll => roll);
 
-            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null);
+            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null, null);
             var character = MakeCharacter(5, 13);
             AddClass(character, 10, 5);
             var actual = hitPointsService.CalculateMaxHitPointsRandom(character);
@@ -184,7 +214,7 @@ namespace dndbeyond_tests
             mockDiceService.Setup(die => die.Roll(It.IsAny<int>()))
                 .Returns<int>(roll => roll);
 
-            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null);
+            var hitPointsService = new HitPointsService(null, null, mockDiceService.Object, null, null);
             var character = MakeCharacter(5, 13);
             AddClass(character, 10, 1);
             AddClass(character, 12, 4);

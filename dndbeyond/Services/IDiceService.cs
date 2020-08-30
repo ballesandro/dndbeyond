@@ -1,5 +1,4 @@
-﻿using System;
-namespace dndbeyond.Services
+﻿namespace dndbeyond.Services
 {
     public interface IDiceService
     {

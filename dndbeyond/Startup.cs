@@ -25,7 +25,8 @@ namespace dndbeyond
             services.AddDbContext<CharactersContext>(opt => opt.UseInMemoryDatabase("Characters"));
             services.AddScoped<ICharactersService, CharactersService>();
             services.AddScoped<IHitPointsService, HitPointsService>();
-            services.AddScoped<DamageService>();
+            services.AddScoped<IDamageService, DamageService>();
+            services.AddScoped<IHealService, HealService>();
             services.AddControllers();
         }
 

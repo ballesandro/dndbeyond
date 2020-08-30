@@ -12,6 +12,7 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="Controllers\Payload\" />
+    <Folder Include="DB\" />
   </ItemGroup>
 
 

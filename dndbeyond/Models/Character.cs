@@ -17,5 +17,6 @@ namespace dndbeyond.Models
         public CharacterStats Stats { get; set; }
         public List<CharacterClass> Classes { get; set; } = new List<CharacterClass>();
         public List<CharacterDefense> Defenses { get; set; } = new List<CharacterDefense>();
+        public List<Item> Items { get; set; } = new List<Item>();
     }
 }

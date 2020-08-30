@@ -41,5 +41,13 @@ namespace dndbeyond.Controllers
             _logger.LogInformation("PUT /api/hitPoints/damage for id " + id);
             return await _hitPointsService.DamageCharacter(id, damage, damageType);
         }
+
+        // PUT: api/HitPoints/damage
+        [HttpPut("heal")]
+        public async Task<ActionResult<Character>> HealCharacter(long id, int heal)
+        {
+            _logger.LogInformation("PUT /api/hitPoints/heal for id " + id);
+            return await _hitPointsService.HealCharacter(id, heal);
+        }
     }
 }

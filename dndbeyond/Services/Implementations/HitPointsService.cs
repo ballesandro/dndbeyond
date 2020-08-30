@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using dndbeyond.Models;
 using dndbeyond.Models.Enum;
-using dndbeyond.Services.Implementations;
 
 namespace dndbeyond.Services
 {
@@ -11,18 +10,21 @@ namespace dndbeyond.Services
         private readonly CharactersContext _context;
         private readonly ICharactersService _charactersService;
         private readonly IDiceService _diceService;
-        private readonly DamageService _damageService;
+        private readonly IDamageService _damageService;
+        private readonly IHealService _healService;
 
         public HitPointsService()
         {
         }
 
-        public HitPointsService(CharactersContext context, ICharactersService charactersService, IDiceService diceService, DamageService damageService)
+        public HitPointsService(CharactersContext context, ICharactersService charactersService,
+            IDiceService diceService, IDamageService damageService, IHealService healService)
         {
             _context = context;
             _charactersService = charactersService;
             _diceService = diceService;
             _damageService = damageService;
+            _healService = healService;
         }
 
         public int CalculateMaxHitPoints(Character character, HitPointsMethod method)
@@ -63,6 +65,16 @@ namespace dndbeyond.Services
             var character = await _charactersService.GetCharacter(id);
 
             _damageService.DamageCharacter(character, damage, damageType);
+            await _context.SaveChangesAsync();
+
+            return character;
+        }
+
+        public async Task<Character> HealCharacter(long id, int heal)
+        {
+            var character = await _charactersService.GetCharacter(id);
+
+            _healService.HealCharacter(character, heal);
             await _context.SaveChangesAsync();
 
             return character;
@@ -112,7 +124,14 @@ namespace dndbeyond.Services
         {
             var con = character.Stats.Constitution;
 
-            // todo: items
+            foreach (Item item in character.Items)
+            {
+                var modifier = item.Modifier;
+                if(modifier.AffectedObject == "stats" && modifier.AffectedValue == "constitution")
+                {
+                    con += modifier.Value;
+                }
+            }
 
             var mod = (con - 10) / 2.0;
             if(mod >= 0)

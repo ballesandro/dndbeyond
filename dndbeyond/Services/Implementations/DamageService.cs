@@ -1,9 +1,8 @@
-﻿using System;
-using dndbeyond.Models;
+﻿using dndbeyond.Models;
 
 namespace dndbeyond.Services.Implementations
 {
-    public class DamageService
+    public class DamageService : IDamageService
     {
         public const string RESISTANCE = "resistance";
         public const string IMMUNITY = "immunity";
