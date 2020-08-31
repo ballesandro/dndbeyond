@@ -12,7 +12,9 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="DB\" />
-    <Folder Include="GraphQL\" />
+    <Folder Include="GraphQL_\" />
+    <Folder Include="GraphQL_\Types\" />
+    <Folder Include="GraphQL_\Inputs\" />
   </ItemGroup>
 
 

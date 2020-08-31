@@ -122,14 +122,14 @@ namespace DnDBeyond.Services
         {
             var con = character.Stats.Constitution;
 
-            foreach (Item item in character.Items)
-            {
-                var modifier = item.Modifier;
-                if (modifier.AffectedObject == "stats" && modifier.AffectedValue == "constitution")
-                {
-                    con += modifier.Value;
-                }
-            }
+            //foreach (Item item in character.Items)
+            //{
+            //    var modifier = item.Modifier;
+            //    if (modifier.AffectedObject == "stats" && modifier.AffectedValue == "constitution")
+            //    {
+            //        con += modifier.Value;
+            //    }
+            //}
 
             var mod = (con - 10) / 2.0;
             if (mod >= 0)

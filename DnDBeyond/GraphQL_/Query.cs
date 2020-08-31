@@ -4,7 +4,7 @@ using DnDBeyond.DB;
 using DnDBeyond.Models;
 using GraphQL;
 
-namespace DnDBeyond.DDBGraphQL
+namespace DnDBeyond.GraphQL_
 {
     public class Query
     {

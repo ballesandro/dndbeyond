@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using DnDBeyond.DB;
-using DnDBeyond.DDBGraphQL;
+using DnDBeyond.GraphQL_;
 using DnDBeyond.Models;
 using DnDBeyond.Services;
 using DnDBeyond.Services.Implementations;
@@ -66,8 +66,9 @@ namespace DnDBeyond
 
             // GraphQL
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            services.AddSingleton<Schema>();
-            services.AddSingleton<Query>();
+            services.AddSingleton<DnDBeyondSchema>();
+            services.AddSingleton<DnDBeyondQuery>();
+            services.AddSingleton<DnDBeyondMutation>();
             services.AddGraphQL(options =>
             {
                 options.EnableMetrics = true;
@@ -103,7 +104,7 @@ namespace DnDBeyond
             });
 
             // GraphQL
-            app.UseGraphQL<Schema>("/graphql");
+            app.UseGraphQL<DnDBeyondSchema>("/graphql");
             app.UseGraphiQl("/graphiql");
         }
     }
