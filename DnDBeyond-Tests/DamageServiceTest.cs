@@ -1,4 +1,5 @@
 using DnDBeyond.Models;
+using DnDBeyond.Models.Enum;
 using DnDBeyond.Services.Implementations;
 using Xunit;
 using FluentAssertions;
@@ -119,11 +120,11 @@ namespace DnDBeyond_tests
         public void Immune_shouldNotLowerAny()
         {
             var expectedCharacter = MakeCharacter(20, 20, 10);
-            addImmunity(expectedCharacter, "fire");
+            AddImmunity(expectedCharacter, "fire");
 
             var damageService = new DamageService();
             var actualCharacter = MakeCharacter(20, 20, 10); 
-            addImmunity(actualCharacter, "fire");
+            AddImmunity(actualCharacter, "fire");
             damageService.DamageCharacter(actualCharacter, 10, "fire");
 
             actualCharacter.Should().BeEquivalentTo(expectedCharacter);
@@ -133,11 +134,11 @@ namespace DnDBeyond_tests
         public void Resistant_shouldLowerHalf()
         {
             var expectedCharacter = MakeCharacter(20, 20, 5);
-            addResistance(expectedCharacter, "fire");
+            AddResistance(expectedCharacter, "fire");
 
             var damageService = new DamageService();
             var actualCharacter = MakeCharacter(20, 20, 10);
-            addResistance(actualCharacter, "fire");
+            AddResistance(actualCharacter, "fire");
             damageService.DamageCharacter(actualCharacter, 10, "fire");
 
             actualCharacter.Should().BeEquivalentTo(expectedCharacter);
@@ -147,11 +148,11 @@ namespace DnDBeyond_tests
         public void Resistant_shouldRoundDown()
         {
             var expectedCharacter = MakeCharacter(20, 20, 6);
-            addResistance(expectedCharacter, "fire");
+            AddResistance(expectedCharacter, "fire");
 
             var damageService = new DamageService();
             var actualCharacter = MakeCharacter(20, 20, 10);
-            addResistance(actualCharacter, "fire");
+            AddResistance(actualCharacter, "fire");
             damageService.DamageCharacter(actualCharacter, 9, "fire");
 
             actualCharacter.Should().BeEquivalentTo(expectedCharacter);
@@ -161,11 +162,11 @@ namespace DnDBeyond_tests
         public void DifferentResistance_shouldNotBeModified()
         {
             var expectedCharacter = MakeCharacter(20, 20, 0);
-            addResistance(expectedCharacter, "poison");
+            AddResistance(expectedCharacter, "poison");
 
             var damageService = new DamageService();
             var actualCharacter = MakeCharacter(20, 20, 10);
-            addResistance(actualCharacter, "poison");
+            AddResistance(actualCharacter, "poison");
             damageService.DamageCharacter(actualCharacter, 10, "fire");
 
             actualCharacter.Should().BeEquivalentTo(expectedCharacter);
@@ -181,24 +182,24 @@ namespace DnDBeyond_tests
             };
         }
 
-        private void addResistance(Character character, string resistance)
+        private void AddResistance(Character character, string resistance)
         {
             if(character.Defenses == null)
             {
                 character.Defenses = new List<CharacterDefense>();
             }
 
-            character.Defenses.Add(new CharacterDefense() { Type = resistance, Defense = DamageService.RESISTANCE });
+            character.Defenses.Add(new CharacterDefense() { Type = resistance, Defense = DefenseDegree.Resistance });
         }
 
-        private void addImmunity(Character character, string immunity)
+        private void AddImmunity(Character character, string immunity)
         {
             if (character.Defenses == null)
             {
                 character.Defenses = new List<CharacterDefense>();
             }
 
-            character.Defenses.Add(new CharacterDefense() { Type = immunity, Defense = DamageService.IMMUNITY });
+            character.Defenses.Add(new CharacterDefense() { Type = immunity, Defense = DefenseDegree.Immunity });
         }
     }
 }

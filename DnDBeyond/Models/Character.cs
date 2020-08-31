@@ -3,8 +3,14 @@ using DnDBeyond.Models.Enum;
 
 namespace DnDBeyond.Models
 {
+    /// <summary>
+    /// A class that describes a character and their inventory.
+    /// </summary>
     public class Character
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Character"/> class.
+        /// </summary>
         public Character()
         {
         }
@@ -15,7 +21,7 @@ namespace DnDBeyond.Models
         public int MaxHitPoints { get; set; }
         public int CurrentHitPoints { get; set; }
         public int TemporaryHitPoints { get; set; }
-        public HitPointsMethod hitPointsMethod { get; set; }
+        public HitPointsMethod HitPointsMethod { get; set; }
         public CharacterStats Stats { get; set; }
         public List<CharacterClass> Classes { get; set; } = new List<CharacterClass>();
         public List<CharacterDefense> Defenses { get; set; } = new List<CharacterDefense>();
