@@ -1,0 +1,66 @@
+# mutation create($character: CharacterInput!) {
+# 	createCharacter(character: $character) {
+#     ...allFields
+#   }
+# }
+
+# {
+#   characters {
+#     id
+#     ...allFields
+#   }
+# }
+
+# {
+#   characters {
+#     id
+#     name
+#   }
+# }
+# {
+#   character(id: 3) {
+#     ...allFields
+#   }
+# }
+
+# {
+#   character(id: 1) {
+# 		name,
+#     id,
+#     level,
+#     hitPointsMethod,
+#     items {
+#       name
+#     }
+#   }
+# }
+
+# fragment allFields on CharacterType {
+#   name
+#   level
+#   classes {
+#     name
+#     hitDiceValue
+#     classLevel
+#   }
+#   stats {
+#     strength
+#     dexterity
+#     constitution
+#     intelligence
+#     wisdom
+#     charisma
+#   }
+#   items {
+#     name
+#     modifier {
+#       affectedObject
+#       affectedValue
+#       value
+#     }
+#   }
+#   defenses {
+#     type
+#     defense
+#   }
+# }

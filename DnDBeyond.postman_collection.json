@@ -1,0 +1,152 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DnD Beyond",
+		"_postman_id": "44bd8806-7c7b-2c2f-f29d-d338b27425a4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All characters",
+			"request": {
+				"url": "https://localhost:5001/api/characters",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Character by id",
+			"request": {
+				"url": "https://localhost:5001/api/Characters/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "New character",
+			"request": {
+				"url": "https://localhost:5001/api/characters",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Briv\",\n  \"level\": 5,\n  \"hitPointsMethod\": \"random\",\n  \"classes\": [\n    {\n    \"name\":\"fighter\",\n    \"hitDiceValue\":10,\n    \"classLevel\":3\n    },\n    {\n      \"name\":\"wizard\",\n      \"hitdicevalue\":6,\n      \"classLevel\":2\n    }\n  ],\n  \"stats\":{\n    \"strength\":15,\n    \"dexterity\":12,\n    \"constitution\":14,\n    \"intelligence\":13,\n    \"wisdom\":10,\n    \"charisma\":8\n  },\n  \"items\":[\n    {\n      \"name\":\"Ioun Stone of Fortitude\",\n      \"modifier\":{\n        \"affectedObject\":\"stats\",\n        \"affectedValue\":\"constitution\",\n        \"value\":2\n      }\n    }\n  ],\n  \"defenses\":[\n    {\n      \"type\":\"fire\",\n      \"defense\":\"immunity\"\n    },\n    {\n      \"type\":\"slashing\",\n      \"defense\":\"resistance\"\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Temporary Hit Points",
+			"request": {
+				"url": "https://localhost:5001/api/hitPoints/temporary",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "3",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "temporaryHitPoints",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Damage Character",
+			"request": {
+				"url": "https://localhost:5001/api/hitPoints/damage",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "3",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "damage",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Heal Character",
+			"request": {
+				"url": "https://localhost:5001/api/hitPoints/heal",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "3",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "heal",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
