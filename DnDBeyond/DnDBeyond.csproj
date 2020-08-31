@@ -12,6 +12,7 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="DB\" />
+    <Folder Include="DDBGraphQL\" />
   </ItemGroup>
 
 
@@ -28,6 +29,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="graphiql" Version="2.0.0" />
+    <PackageReference Include="GraphQL.Server.Core" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="GraphQL" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
