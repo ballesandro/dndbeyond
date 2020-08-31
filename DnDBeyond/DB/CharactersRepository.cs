@@ -30,7 +30,13 @@ namespace DnDBeyond.DB
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<CharactersContext>();
-            return await context.Characters.ToListAsync();
+            return await context.Characters
+                .Include(character => character.Classes)
+                .Include(character => character.Defenses)
+                .Include(character => character.Stats)
+                .Include(character => character.Items)
+                .ThenInclude(item => item.Modifier)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -42,7 +48,13 @@ namespace DnDBeyond.DB
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<CharactersContext>();
-            return await context.Characters.FindAsync(id);
+            return await context.Characters
+                .Include(character => character.Classes)
+                .Include(character => character.Defenses)
+                .Include(character => character.Stats)
+                .Include(character => character.Items)
+                .ThenInclude(item => item.Modifier)
+                .FirstAsync(character => character.Id == id);
         }
 
         /// <summary>
@@ -55,7 +67,26 @@ namespace DnDBeyond.DB
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<CharactersContext>();
+
+            foreach (Item item in character.Items)
+            {
+                context.Modifiers.Add(item.Modifier);
+                context.Items.Add(item);
+            }
+
+            foreach (CharacterDefense defense in character.Defenses)
+            {
+                context.CharacterDefenses.Add(defense);
+            }
+
+            foreach (CharacterClass charClass in character.Classes)
+            {
+                context.CharacterClasses.Add(charClass);
+            }
+
+            context.CharacterStats.Add(character.Stats);
             context.Characters.Add(character);
+
             return await context.SaveChangesAsync();
         }
 

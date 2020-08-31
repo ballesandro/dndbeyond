@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using DnDBeyond.DB;
 using DnDBeyond.GraphQL_;
+using DnDBeyond.GraphQL_.Inputs;
+using DnDBeyond.GraphQL_.Types;
 using DnDBeyond.Models;
 using DnDBeyond.Services;
 using DnDBeyond.Services.Implementations;
@@ -69,6 +71,22 @@ namespace DnDBeyond
             services.AddSingleton<DnDBeyondSchema>();
             services.AddSingleton<DnDBeyondQuery>();
             services.AddSingleton<DnDBeyondMutation>();
+            services.AddSingleton<CharacterClassType>();
+            services.AddSingleton<CharacterDefenseType>();
+            services.AddSingleton<CharacterStatsType>();
+            services.AddSingleton<CharacterType>();
+            services.AddSingleton<DefenseDegreeType>();
+            services.AddSingleton<HitPointsMethodType>();
+            services.AddSingleton<ItemType>();
+            services.AddSingleton<ModifierType>();
+            services.AddSingleton<CharacterClassInput>();
+            services.AddSingleton<CharacterDefenseInput>();
+            services.AddSingleton<CharacterInput>();
+            services.AddSingleton<CharacterStatsInput>();
+            services.AddSingleton<ItemInput>();
+            services.AddSingleton<ModifierInput>();
+
+
             services.AddGraphQL(options =>
             {
                 options.EnableMetrics = true;

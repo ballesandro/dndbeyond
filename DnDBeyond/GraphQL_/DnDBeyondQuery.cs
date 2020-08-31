@@ -10,14 +10,17 @@ namespace DnDBeyond.GraphQL_
         {
             Name = "Query";
 
+            // Get all characters
+            Field<ListGraphType<CharacterType>>(
+                "characters",
+                resolve: context => charactersService.GetCharacters());
+
+            // Get character by id
             Field<CharacterType>(
                 "character",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id", Description = "id of the character" }),
                 resolve: context => charactersService.GetCharacter(context.GetArgument<long>("id")));
-            Field<ListGraphType<CharacterType>>(
-                "characters",
-                resolve: context => charactersService.GetCharacters());
         }
     }
 }

@@ -8,7 +8,8 @@ namespace DnDBeyond.GraphQL_.Inputs
         {
             Name = "CharacterInput";
             Field<StringGraphType>("name");
-            Field<StringGraphType>("HitPointsMethod");
+            Field<IntGraphType>("level");
+            Field<StringGraphType>("hitPointsMethod");
             Field<CharacterStatsInput>("stats");
             Field<ListGraphType<CharacterClassInput>>("classes");
             Field<ListGraphType<CharacterDefenseInput>>("defenses");

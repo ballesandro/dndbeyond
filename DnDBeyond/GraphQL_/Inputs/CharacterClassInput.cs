@@ -8,12 +8,9 @@ namespace DnDBeyond.GraphQL_.Inputs
         public CharacterClassInput()
         {
             Name = "Class";
-            Field<IntGraphType>("strength");
-            Field<IntGraphType>("dexterity");
-            Field<IntGraphType>("constitution");
-            Field<IntGraphType>("intelligence");
-            Field<IntGraphType>("wisdom");
-            Field<IntGraphType>("charisma");
+            Field<StringGraphType>("name");
+            Field<IntGraphType>("hitDiceValue");
+            Field<IntGraphType>("classLevel");
         }
     }
 }
