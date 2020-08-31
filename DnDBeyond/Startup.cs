@@ -86,7 +86,6 @@ namespace DnDBeyond
             services.AddSingleton<ItemInput>();
             services.AddSingleton<ModifierInput>();
 
-
             services.AddGraphQL(options =>
             {
                 options.EnableMetrics = true;

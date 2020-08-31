@@ -2,7 +2,6 @@
 
 namespace DnDBeyond.GraphQL_.Inputs
 {
-
     public class CharacterStatsInput : InputObjectGraphType
     {
         public CharacterStatsInput()
