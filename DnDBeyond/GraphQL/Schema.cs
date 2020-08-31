@@ -4,14 +4,14 @@ using GraphQL.Types;
 
 namespace DnDBeyond.DDBGraphQL
 {
-    public class DDBSchema : Schema
+    public class Schema : GraphQL.Types.Schema
     {
 
         private ISchema _schema;
 
-        public DDBSchema(IServiceProvider sp)
+        public Schema(IServiceProvider sp)
         {
-            this._schema = Schema.For(
+            this._schema = GraphQL.Types.Schema.For(
             @"
                 enum HitPointsMethod {
                     average,

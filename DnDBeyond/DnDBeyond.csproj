@@ -12,7 +12,7 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="DB\" />
-    <Folder Include="DDBGraphQL\" />
+    <Folder Include="GraphQL\" />
   </ItemGroup>
 
 

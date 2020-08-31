@@ -66,7 +66,7 @@ namespace DnDBeyond
 
             // GraphQL
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            services.AddSingleton<DDBSchema>();
+            services.AddSingleton<Schema>();
             services.AddSingleton<Query>();
             services.AddGraphQL(options =>
             {
@@ -103,7 +103,7 @@ namespace DnDBeyond
             });
 
             // GraphQL
-            app.UseGraphQL<DDBSchema>("/graphql");
+            app.UseGraphQL<Schema>("/graphql");
             app.UseGraphiQl("/graphiql");
         }
     }
