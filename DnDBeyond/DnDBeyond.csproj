@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>f1c2d99c-81d5-4293-86d8-a0293da6bf0f</UserSecretsId>
   </PropertyGroup>
 
 
@@ -12,6 +14,9 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="DB\" />
+    <Folder Include="GraphQL_\" />
+    <Folder Include="GraphQL_\Types\" />
+    <Folder Include="GraphQL_\Inputs\" />
   </ItemGroup>
 
 
@@ -28,6 +33,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="graphiql" Version="2.0.0" />
+    <PackageReference Include="GraphQL.Server.Core" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="GraphQL" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>

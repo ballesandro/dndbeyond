@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DnDBeyond.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DnDBeyond.DB
 {
@@ -10,15 +11,15 @@ namespace DnDBeyond.DB
     /// </summary>
     public class CharactersRepository
     {
-        private readonly CharactersContext _context;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CharactersRepository"/> class.
         /// </summary>
-        /// <param name="context">The DbContext to use.</param>
-        public CharactersRepository(CharactersContext context)
+        /// <param name="scopeFactory">The IServiceScopeFactory to use.</param>
+        public CharactersRepository(IServiceScopeFactory scopeFactory)
         {
-            _context = context;
+            _scopeFactory = scopeFactory;
         }
 
         /// <summary>
@@ -27,7 +28,15 @@ namespace DnDBeyond.DB
         /// <returns>A list of all characters.</returns>
         public async Task<IEnumerable<Character>> GetAll()
         {
-            return await _context.Characters.ToListAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<CharactersContext>();
+            return await context.Characters
+                .Include(character => character.Classes)
+                .Include(character => character.Defenses)
+                .Include(character => character.Stats)
+                .Include(character => character.Items)
+                .ThenInclude(item => item.Modifier)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -37,7 +46,15 @@ namespace DnDBeyond.DB
         /// <returns>A character with the given id, or null.</returns>
         public async Task<Character> GetById(long id)
         {
-            return await _context.Characters.FindAsync(id);
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<CharactersContext>();
+            return await context.Characters
+                .Include(character => character.Classes)
+                .Include(character => character.Defenses)
+                .Include(character => character.Stats)
+                .Include(character => character.Items)
+                .ThenInclude(item => item.Modifier)
+                .FirstAsync(character => character.Id == id);
         }
 
         /// <summary>
@@ -48,8 +65,29 @@ namespace DnDBeyond.DB
         /// <returns>0 if not successful, or 1 otherwise.</returns>
         public async Task<int> Add(Character character)
         {
-            _context.Characters.Add(character);
-            return await _context.SaveChangesAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<CharactersContext>();
+
+            foreach (Item item in character.Items)
+            {
+                context.Modifiers.Add(item.Modifier);
+                context.Items.Add(item);
+            }
+
+            foreach (CharacterDefense defense in character.Defenses)
+            {
+                context.CharacterDefenses.Add(defense);
+            }
+
+            foreach (CharacterClass charClass in character.Classes)
+            {
+                context.CharacterClasses.Add(charClass);
+            }
+
+            context.CharacterStats.Add(character.Stats);
+            context.Characters.Add(character);
+
+            return await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -59,8 +97,10 @@ namespace DnDBeyond.DB
         /// <returns>0 if not successful, or 1 otherwise.</returns>
         public async Task<int> Update(Character character)
         {
-            _context.Characters.Update(character);
-            return await _context.SaveChangesAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<CharactersContext>();
+            context.Characters.Update(character);
+            return await context.SaveChangesAsync();
         }
     }
 }

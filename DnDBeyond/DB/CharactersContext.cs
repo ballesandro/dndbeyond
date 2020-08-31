@@ -24,5 +24,10 @@ namespace DnDBeyond.Models
         }
 
         public DbSet<Character> Characters { get; set; }
+        public DbSet<CharacterClass> CharacterClasses { get; set; }
+        public DbSet<CharacterDefense> CharacterDefenses { get; set; }
+        public DbSet<CharacterStats> CharacterStats { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Modifier> Modifiers { get; set; }
     }
 }
