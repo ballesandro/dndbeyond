@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DnDBeyond.Models;
 using DnDBeyond.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +34,22 @@ namespace DnDBeyond.Controllers
         /// <param name="id">Character's unique identifier.</param>
         /// <param name="temporaryHitPoints">The amount of temporary hit points to use.</param>
         /// <returns>The character, with updated temporary hit points.</returns>
+        /// <response code="200">Returns the updated character.</response>
+        /// <response code="404">If a character with given id cannot be found.</response>
         [HttpPut("temporary")]
+        [Produces("application/json")]
         public async Task<ActionResult<Character>> UpdateTemporaryHitPoints(long id, int temporaryHitPoints)
         {
             _logger.LogInformation("PUT /api/hitPoints/temporary for id " + id);
-            return await _hitPointsService.UpdateTemporaryHitPoints(id, temporaryHitPoints);
+
+            try
+            {
+                return await _hitPointsService.UpdateTemporaryHitPoints(id, temporaryHitPoints);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -47,11 +59,22 @@ namespace DnDBeyond.Controllers
         /// <param name="damage">The raw amount of damage to do.</param>
         /// <param name="damageType">The type of the damage (e.g., fire).</param>
         /// <returns>The character, with updated hit points.</returns>
+        /// <response code="200">Returns the updated character.</response>
+        /// <response code="404">If a character with given id cannot be found.</response>
         [HttpPut("damage")]
+        [Produces("application/json")]
         public async Task<ActionResult<Character>> DamageCharacter(long id, int damage, string damageType)
         {
             _logger.LogInformation("PUT /api/hitPoints/damage for id " + id);
-            return await _hitPointsService.DamageCharacter(id, damage, damageType);
+
+            try
+            {
+                return await _hitPointsService.DamageCharacter(id, damage, damageType);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -60,11 +83,22 @@ namespace DnDBeyond.Controllers
         /// <param name="id">Character's unique identifier.</param>
         /// <param name="heal">The amount of healing to do.</param>
         /// <returns>The character, with updated hit points.</returns>
+        /// <response code="200">Returns the updated character.</response>
+        /// <response code="404">If a character with given id cannot be found.</response>
         [HttpPut("heal")]
+        [Produces("application/json")]
         public async Task<ActionResult<Character>> HealCharacter(long id, int heal)
         {
             _logger.LogInformation("PUT /api/hitPoints/heal for id " + id);
-            return await _hitPointsService.HealCharacter(id, heal);
+
+            try
+            {
+                return await _hitPointsService.HealCharacter(id, heal);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

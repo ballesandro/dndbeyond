@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DnDBeyond.Models;
@@ -57,7 +58,7 @@ namespace DnDBeyond.Controllers
             var character = await _charactersService.GetCharacter(id);
             if (character == null)
             {
-                return NotFound();
+                return NotFound("A character with id " + id + " cannot be found.");
             }
 
             return character;
@@ -68,12 +69,23 @@ namespace DnDBeyond.Controllers
         /// </summary>
         /// <param name="character">JSON representation of a character.</param>
         /// <returns>The newly created character, including id and hit points.</returns>
+        /// <response code="200">Returns the newly created character.</response>
+        /// <response code="400">If a character cannot be saved.</response>
         [HttpPost]
+        [Produces("application/json")]
         public async Task<ActionResult<Character>> CreateCharacter(Character character)
         {
             _logger.LogInformation("POST /api/characters");
 
-            character = await _charactersService.CreateCharacter(character);
+            try
+            {
+                character = await _charactersService.CreateCharacter(character);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+
             return CreatedAtAction(nameof(GetCharacter), new { id = character.Id }, character);
         }
     }

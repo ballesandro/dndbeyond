@@ -42,6 +42,11 @@ namespace DnDBeyond.Services
         public async Task<Character> UpdateTemporaryHitPoints(long id, int temporaryHitPoints)
         {
             var character = await _repo.GetById(id);
+            if (character == null)
+            {
+                throw new ArgumentException("Could not find character with id " + id + ".");
+            }
+
             character.TemporaryHitPoints = Math.Max(temporaryHitPoints, character.TemporaryHitPoints);
 
             await _repo.Update(character);
@@ -52,6 +57,11 @@ namespace DnDBeyond.Services
         public async Task<Character> DamageCharacter(long id, int damage, string damageType)
         {
             var character = await _repo.GetById(id);
+            if (character == null)
+            {
+                throw new ArgumentException("Could not find character with id " + id + ".");
+            }
+
             _damageService.DamageCharacter(character, damage, damageType);
 
             await _repo.Update(character);
@@ -62,6 +72,11 @@ namespace DnDBeyond.Services
         public async Task<Character> HealCharacter(long id, int heal)
         {
             var character = await _repo.GetById(id);
+            if (character == null)
+            {
+                throw new ArgumentException("Could not find character with id " + id + ".");
+            }
+
             _healService.HealCharacter(character, heal);
 
             await _repo.Update(character);

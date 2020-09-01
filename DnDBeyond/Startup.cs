@@ -37,15 +37,15 @@ namespace DnDBeyond
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (CurrentEnvironment.IsDevelopment())
+            if (Environment.GetEnvironmentVariable("USE_POSTGRES") == "true")
             {
                 services.AddDbContext<CharactersContext>(opt =>
-                    opt.UseInMemoryDatabase("CharactersContext"));
+                    opt.UseNpgsql(Configuration.GetConnectionString("DbContext")));
             }
             else
             {
                 services.AddDbContext<CharactersContext>(opt =>
-                    opt.UseNpgsql(Configuration.GetConnectionString("DbContext")));
+                    opt.UseInMemoryDatabase("CharactersContext"));
             }
 
             services.AddSingleton<ICharactersService, CharactersService>();
