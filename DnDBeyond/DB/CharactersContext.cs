@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace DnDBeyond.Models
 {
@@ -29,5 +30,17 @@ namespace DnDBeyond.Models
         public DbSet<CharacterStats> CharacterStats { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Modifier> Modifiers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Character>().ToTable("characters");
+            modelBuilder.Entity<CharacterClass>().ToTable("classes");
+            modelBuilder.Entity<CharacterDefense>().ToTable("defenses");
+            modelBuilder.Entity<CharacterStats>().ToTable("stats");
+            modelBuilder.Entity<Item>().ToTable("items");
+            modelBuilder.Entity<Modifier>().ToTable("modifiers");
+
+        }
+
     }
 }

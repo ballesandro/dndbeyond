@@ -35,7 +35,9 @@ namespace DnDBeyond
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CharactersContext>(opt => opt.UseInMemoryDatabase("Characters"));
+
+            services.AddDbContext<CharactersContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DbContext")));
             services.AddSingleton<ICharactersService, CharactersService>();
             services.AddSingleton<IHitPointsService, HitPointsService>();
             services.AddSingleton<IDamageService, DamageService>();
