@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  dndbeyond:
+    image: ${DOCKER_REGISTRY-}dndbeyond
+    build:
+      context: .
+      dockerfile: DnDBeyond/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - USER_SECRETS_ID=f1c2d99c-81d5-4293-86d8-a0293da6bf0f
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/DnDBeyond.pfx
+    ports:
+      - "8000:80"
+      - "8080:443"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets/$USER_SECRETS_ID:/root/.microsoft/usersecrets/$USER_SECRETS_ID:ro
