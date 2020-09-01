@@ -5,7 +5,7 @@ This is a solution to the [D&D Beyond back-end developer challenge](https://gith
 
 ## Running
 
-**https setup**
+### https setup
 You will need to have a certificate for running the app over https. If you don't have one already, you can generate one from the command line.
 
     dotnet dev-certs https -ep ~/.aspnet/https/DnDBeyond.pfx -p changeit
@@ -19,7 +19,7 @@ Alternatively, you can disable https :)
     # 106 | app.UseHttpsRedirection(); // comment out this line
     # 107 | ...
 
-**Docker**
+### Docker
 You will need to have Docker installed and running first.
 
 1. Download or clone this repo.
@@ -27,7 +27,9 @@ You will need to have Docker installed and running first.
 
 
 ## Notes
-This solution has three parts and uses an in-memory database.
+If you run locally, the app will an in-memory database. If you run with Docker, it will use a postgres database.
+
+This solution has three parts.
 
 The first is a standard REST API. Even though this is a small app, you will still find services, repositories, and more. You can use the included Postman collection to run sample API requests against [https://localhost:8080/api](https://localhost:8080/api)
 
