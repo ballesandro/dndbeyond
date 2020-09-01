@@ -18,7 +18,12 @@ namespace DnDBeyond.Models
 
         [JsonIgnore]
         public long Id { get; set; }
+        [JsonIgnore]
+        public long CharacterId { get; set; }
+        [JsonIgnore]
+        public long ModifierId { get; set; }
         public string Name { get; set; }
+
         public Modifier Modifier { get; set; }
     }
 }

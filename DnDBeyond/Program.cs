@@ -14,16 +14,14 @@ namespace DnDBeyond
 
             using (IServiceScope scope = host.Services.CreateScope())
             {
-                // Seed graphql
+                // Seed repo
                 CharactersRepository repo = scope.ServiceProvider.GetRequiredService<CharactersRepository>();
                 _ = repo.Add(new Character()
                 {
-                    Id = 1,
                     Name = "Eressil"
                 });
                 _ = repo.Add(new Character()
                 {
-                    Id = 2,
                     Name = "Rhone"
                 });
             }

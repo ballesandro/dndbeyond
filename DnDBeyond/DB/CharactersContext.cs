@@ -1,5 +1,6 @@
-﻿using System;
+﻿using DnDBeyond.Models.Enum;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace DnDBeyond.Models
 {
@@ -39,8 +40,6 @@ namespace DnDBeyond.Models
             modelBuilder.Entity<CharacterStats>().ToTable("stats");
             modelBuilder.Entity<Item>().ToTable("items");
             modelBuilder.Entity<Modifier>().ToTable("modifiers");
-
         }
-
     }
 }
