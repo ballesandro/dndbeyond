@@ -43,9 +43,7 @@ namespace DnDBeyond.Services
             character.MaxHitPoints = maxHitPoints;
             character.CurrentHitPoints = maxHitPoints;
 
-            await _repo.Add(character);
-
-            return character;
+            return await _repo.Add(character);
         }
     }
 }

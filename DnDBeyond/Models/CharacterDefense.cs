@@ -17,6 +17,8 @@ namespace DnDBeyond.Models
 
         [JsonIgnore]
         public long Id { get; set; }
+        [JsonIgnore]
+        public long CharacterId { get; set; }
         public string Type { get; set; }
         public DefenseDegree Defense { get; set; }
     }

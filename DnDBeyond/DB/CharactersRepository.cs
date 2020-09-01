@@ -54,7 +54,7 @@ namespace DnDBeyond.DB
                 .Include(character => character.Stats)
                 .Include(character => character.Items)
                 .ThenInclude(item => item.Modifier)
-                .FirstAsync(character => character.Id == id);
+                .FirstOrDefaultAsync(character => character.Id == id);
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace DnDBeyond.DB
         /// an id will be automatically generated.
         /// </summary>
         /// <param name="character">The character to add.</param>
-        /// <returns>0 if not successful, or 1 otherwise.</returns>
-        public async Task<int> Add(Character character)
+        /// <returns>The character created.</returns>
+        public async Task<Character> Add(Character character)
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<CharactersContext>();
@@ -87,7 +87,8 @@ namespace DnDBeyond.DB
             context.CharacterStats.Add(character.Stats);
             context.Characters.Add(character);
 
-            return await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
+            return character;
         }
 
         /// <summary>
@@ -95,12 +96,13 @@ namespace DnDBeyond.DB
         /// </summary>
         /// <param name="character">The character to update.</param>
         /// <returns>0 if not successful, or 1 otherwise.</returns>
-        public async Task<int> Update(Character character)
+        public async Task<Character> Update(Character character)
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<CharactersContext>();
             context.Characters.Update(character);
-            return await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
+            return character;
         }
     }
 }
