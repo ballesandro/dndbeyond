@@ -14,9 +14,9 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="DB\" />
-    <Folder Include="GraphQL_\" />
-    <Folder Include="GraphQL_\Types\" />
-    <Folder Include="GraphQL_\Inputs\" />
+    <Folder Include="DnDBeyondGraphQL\" />
+    <Folder Include="DnDBeyondGraphQL\Types\" />
+    <Folder Include="DnDBeyondGraphQL\Inputs\" />
     <Folder Include="DB\Migrations\" />
   </ItemGroup>
 

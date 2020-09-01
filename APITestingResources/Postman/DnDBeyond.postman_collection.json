@@ -10,7 +10,7 @@
 		{
 			"name": "All characters",
 			"request": {
-				"url": "https://localhost:5001/api/characters",
+				"url": "https://localhost:{{port}}/api/characters",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -21,7 +21,7 @@
 		{
 			"name": "Character by id",
 			"request": {
-				"url": "https://localhost:5001/api/Characters/1",
+				"url": "https://localhost:{{port}}/api/Characters/1",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -32,7 +32,7 @@
 		{
 			"name": "New character",
 			"request": {
-				"url": "https://localhost:5001/api/characters",
+				"url": "https://localhost:{{port}}/api/characters",
 				"method": "POST",
 				"header": [
 					{
@@ -52,7 +52,7 @@
 		{
 			"name": "Update Temporary Hit Points",
 			"request": {
-				"url": "https://localhost:5001/api/hitPoints/temporary",
+				"url": "https://localhost:{{port}}/api/hitPoints/temporary",
 				"method": "PUT",
 				"header": [
 					{
@@ -85,7 +85,7 @@
 		{
 			"name": "Damage Character",
 			"request": {
-				"url": "https://localhost:5001/api/hitPoints/damage",
+				"url": "https://localhost:{{port}}/api/hitPoints/damage",
 				"method": "PUT",
 				"header": [
 					{
@@ -118,7 +118,7 @@
 		{
 			"name": "Heal Character",
 			"request": {
-				"url": "https://localhost:5001/api/hitPoints/heal",
+				"url": "https://localhost:{{port}}/api/hitPoints/heal",
 				"method": "PUT",
 				"header": [
 					{
